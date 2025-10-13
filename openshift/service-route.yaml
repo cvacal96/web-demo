@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-demo
+  namespace: iotware-demo
+spec:
+  selector:
+    app: web-demo
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: web-demo
+  namespace: iotware-demo
+spec:
+  to:
+    kind: Service
+    name: web-demo
+  port:
+    targetPort: 80

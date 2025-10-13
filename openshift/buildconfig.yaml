@@ -1,0 +1,25 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: web-demo-build
+  namespace: iotware-demo
+spec:
+  source:
+    type: Git
+    git:
+      uri: https://github.com/<tu-usuario>/web-demo.git  # 🔁 reemplaza con tu repo real
+      ref: main
+  strategy:
+    type: Docker
+    dockerStrategy:
+      dockerfilePath: Dockerfile
+  output:
+    to:
+      kind: ImageStreamTag
+      name: web-demo:latest
+  triggers:
+  - type: GitHub
+    github:
+      secret: demo-secret
+  - type: ConfigChange
+  - type: ImageChange

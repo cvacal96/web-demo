@@ -1,0 +1,29 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  name: web-demo
+  namespace: iotware-demo
+spec:
+  replicas: 1
+  selector:
+    app: web-demo
+  template:
+    metadata:
+      labels:
+        app: web-demo
+    spec:
+      containers:
+      - name: web-demo
+        image: image-registry.openshift-image-registry.svc:5000/iotware-demo/web-demo:latest
+        ports:
+        - containerPort: 8080
+  triggers:
+  - type: ConfigChange
+  - type: ImageChange
+    imageChangeParams:
+      automatic: true
+      containerNames:
+      - web-demo
+      from:
+        kind: ImageStreamTag
+        name: web-demo:latest
